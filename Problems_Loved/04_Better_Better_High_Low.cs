@@ -3,7 +3,7 @@ using static System.Console;
 
 // Generate and store random number between 0 and 100
 Random rnd = new Random();
-int num = rnd.Next(0,100);
+int num = rnd.Next(0,101); // upper bound things
 
 Clear();
 
@@ -12,6 +12,7 @@ WriteLine("Welcome to the High-Low Game.");
 
 for (ushort counter = 1; counter < 8; counter++)
 {
+    
     WriteLine($"{8-counter} tries remaining.");
 
     WriteLine();
