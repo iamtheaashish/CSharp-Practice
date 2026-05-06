@@ -1,5 +1,6 @@
 // Boss Battle : Hunting the Manticore
 
+// putting them here because getting error CS0841
 int cityHealth = 15;
 int manticoreHealth = 10;
 int roundNumber = 1;
@@ -9,10 +10,8 @@ bool endWhileLoop = false;
 Random rnd = new Random();
 int manticoreRange = rnd.Next(0,101);
 
-Console.Clear();
-
 // functions
-int CannonDamage(int roundNumber)
+int EvaluateCannonDamage(int roundNumber)
 {
     int cannonDamage;
     if (roundNumber % 3 == 0 && roundNumber % 5 == 0)
@@ -36,7 +35,8 @@ void EvaluateTargetHitMiss(int targetRange)
     {
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("That round was a DIRECT HIT!");
-        manticoreHealth -= CannonDamage(roundNumber);
+        manticoreHealth -= EvaluateCannonDamage(roundNumber);
+        cityHealth -= 1;
     }
     else if (targetRange < manticoreRange)
     {
@@ -68,6 +68,10 @@ void EvaluateHealth()
     }
 }
 
+// Main Function
+Console.Clear();
+
+
 while (!endWhileLoop)
 {
     Console.ForegroundColor = ConsoleColor.White;
@@ -75,13 +79,14 @@ while (!endWhileLoop)
     Console.WriteLine($"STATUS: Round: {roundNumber}\tCity: {cityHealth}/15\tManticore: {manticoreHealth}/10");
 
     Console.ForegroundColor = ConsoleColor.Cyan;
-    Console.WriteLine($"The cannon is expected to deal {CannonDamage(roundNumber)} damage this round.");
+    Console.WriteLine($"The cannon is expected to deal {EvaluateCannonDamage(roundNumber)} damage this round.");
 
     Console.ForegroundColor = ConsoleColor.White;
     // Input from Player 2
     Console.Write("Enter desired cannon range: ");
     string? targetRangeStr = Console.ReadLine();
-    int targetRange = int.Parse(targetRangeStr);
+    int targetRange;
+    int.TryParse(targetRangeStr, out targetRange);
 
     EvaluateTargetHitMiss(targetRange);
 
