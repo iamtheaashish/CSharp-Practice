@@ -7,7 +7,7 @@ while (true)
     // Console.Clear();
     Console.WriteLine($"The steel door is currently {Steel.CurrentState}.");
     Console.WriteLine("Press: 1. Open, 2. Close, 3. Lock, 4. Change Passcode");
-    int input = userInput();
+    int input = GetUserInput();
 
     if (input == 1 && Steel.CurrentState == DoorState.Closed) Steel.ChangeDoorState(DoorState.Open); // Open if the door is closed.
     if (input == 1 && Steel.CurrentState == DoorState.Locked) Steel.ChangeDoorState(DoorState.Open); // Open if the door is closed and locked.
@@ -31,23 +31,17 @@ while (true)
 
 // ==> The Locked Door --- End of the Main Method.
 
-int userInput()
+int GetUserInput()
 {
-    int input;
     while (true)
     {
         Console.Write("Enter option (1-4): ");
 
-        bool isValid = int.TryParse(Console.ReadLine(), out input);
-
-        if (isValid && input >= 1 && input <= 4)
-        {
-            break;
-        }
+        if (int.TryParse(Console.ReadLine(), out int input) && input >= 1 && input <= 4)
+            return input;
 
         Console.WriteLine("Invalid option. Please enter a number between 1 and 4.");
     }
-    return input;
 }
 
 public class Door
