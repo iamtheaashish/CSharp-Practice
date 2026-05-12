@@ -72,24 +72,26 @@ class TicTacToe
         return false;
     }
 
-    private bool CheckDraw()
-    {
-        foreach (char position in _grid)
-        {
-            if (position == ' ')
-                return false;
-        }
+    // private bool CheckDraw()
+    // {
+    //     foreach (char position in _grid)
+    //     {
+    //         if (position == ' ')
+    //             return false;
+    //     }
 
-        return true;
-    }
+    //     return true;
+    // }
 
     public void GameLoop()
     {
         char currentPlayer = _player1;
-        while (true)
+
+        for (byte numberOfRounds = 1; numberOfRounds <= 9; numberOfRounds++)
         {
             Console.WriteLine("Use your numpad as a reference to play.");
             DisplayGrid();
+
             byte position = TakeInput(currentPlayer);
 
             StoreValueInGrid(currentPlayer, position);
@@ -97,19 +99,24 @@ class TicTacToe
             if (CheckWin(currentPlayer))
             {
                 Console.Clear();
+                DisplayGrid();
                 Console.WriteLine($"The {currentPlayer} has won!");
                 break;
             }
-            if (CheckDraw())
+
+            if (numberOfRounds == 9)
             {
                 Console.Clear();
+                DisplayGrid();
                 Console.WriteLine("It's a draw, Nobody won!");
                 break;
             }
-            
+
             // switch turns between players
             if (currentPlayer == _player1) currentPlayer = _player2;
             else currentPlayer = _player1;
+
+            Console.Clear();
         }
         DisplayGrid();
 
