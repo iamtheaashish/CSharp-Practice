@@ -1,126 +1,97 @@
-Console.Clear();
+Console.WriteLine("Hello world");
 
-TicTacToe Game1 = new TicTacToe();
+InventoryItem rope1 = new Rope();
 
-Game1.GameLoop();
+Console.WriteLine(rope1.ItemVolume);
 
+// ===> End of the main method.
 
-// ==> End of main method.
-class TicTacToe
+public class InventoryItem
 {
-    private char _player1 = 'O';
-    private char _player2 = 'X';
-    private char[] _grid = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
+    public float ItemWeight { get; }
+    public float ItemVolume { get; }
 
-    // default constructor
-    public TicTacToe()
+    public InventoryItem(float itemWeight, float itemVolume)
     {
+        ItemWeight = itemWeight;
+        ItemVolume = itemVolume;
+    }
+}
+
+public class Arrow : InventoryItem
+{
+    // constructor
+    public Arrow() : base(0.1f, 0.05f)
+    {
+        
+    }
+}
+public class Bow : InventoryItem
+{
+    public Bow() : base(1f, 4f)
+    {
+        
+    }
+}
+public class Rope : InventoryItem
+{
+    public Rope() : base(1f, 1.5f)
+    {
+        
+    }
+}
+public class Water : InventoryItem
+{
+    public Water() : base(2f, 3f)
+    {
+        
+    }
+}
+public class Food : InventoryItem
+{
+    public Food() : base(1f, 0.5f)
+    {
+        
+    }
+}
+public class Sword : InventoryItem
+{
+    public Sword() : base(5f, 3f)
+    {
+        
+    }
+}
+
+// tough one
+
+public class Pack
+{
+    // array of inventory items
+    private InventoryItem[] _items;
+    private int _currentItemCount;
+
+// auto property
+    public int MaxItems { get; }
+    public float MaxWeight { get; }
+    public float MaxVolume { get; }
+
+// constructor
+    public Pack(int maxItems, float maxWeight, float maxVolume)
+    {
+        MaxItems = maxItems;
+        MaxWeight = maxWeight;
+        MaxVolume = maxVolume;
+
+        _items = new InventoryItem[maxItems];
     }
 
-    // methods
-    private void DisplayGrid()
+    public bool Add(InventoryItem item)
     {
-        Console.WriteLine($" {_grid[6]} | {_grid[7]} | {_grid[8]} ");
-        Console.WriteLine("---+---+---");
-        Console.WriteLine($" {_grid[3]} | {_grid[4]} | {_grid[5]} ");
-        Console.WriteLine("---+---+---");
-        Console.WriteLine($" {_grid[0]} | {_grid[1]} | {_grid[2]} ");
-        // Console.WriteLine("---|---|---");
-    }
-    private byte TakeInput(char player)
-    {
-        while (true)
-        {
-            Console.Write($"It is {player}'s turn. What position do you want to play in?: ");
-
-            if (byte.TryParse(Console.ReadLine(), out byte position) && position >= 1 && position <= 9 && _grid[position - 1] == ' ' /*Position Occupied*/)
-                return position;
-
-            Console.WriteLine("Invalid option. Enter a number between 1 and 9. Make sure the position is empty.");
-        }
-    }
-
-    private void StoreValueInGrid(char player, byte position)
-    {
-        _grid[position - 1] = player;
-    }
-
-    private bool CheckWin(char player)
-    {
-        // columns
-        if ((_grid[6] == player) && (_grid[3] == player) && (_grid[0] == player))
-            return true;
-        if ((_grid[7] == player) && (_grid[4] == player) && (_grid[1] == player))
-            return true;
-        if ((_grid[8] == player) && (_grid[5] == player) && (_grid[2] == player))
-            return true;
-
-        // rows
-        if ((_grid[6] == player) && (_grid[7] == player) && (_grid[8] == player))
-            return true;
-        if ((_grid[3] == player) && (_grid[4] == player) && (_grid[5] == player))
-            return true;
-        if ((_grid[0] == player) && (_grid[1] == player) && (_grid[2] == player))
-            return true;
-
-        // diagonals
-        if ((_grid[6] == player) && (_grid[4] == player) && (_grid[2] == player))
-            return true;
-        if ((_grid[8] == player) && (_grid[4] == player) && (_grid[0] == player))
-            return true;
-
+        if(_items[_currentItemCount] >= _items[MaxItems]) // last valid index of MaxItems is -1
         return false;
-    }
 
-    // private bool CheckDraw()
-    // {
-    //     foreach (char position in _grid)
-    //     {
-    //         if (position == ' ')
-    //             return false;
-    //     }
-
-    //     return true;
-    // }
-
-    public void GameLoop()
-    {
-        char currentPlayer = _player1;
-
-        for (byte numberOfRounds = 1; numberOfRounds <= 9; numberOfRounds++)
-        {
-            Console.WriteLine("Use your numpad as a reference to play.");
-            DisplayGrid();
-
-            byte position = TakeInput(currentPlayer);
-
-            StoreValueInGrid(currentPlayer, position);
-
-            if (CheckWin(currentPlayer))
-            {
-                Console.Clear();
-                DisplayGrid();
-                Console.WriteLine($"The {currentPlayer} has won!");
-                break;
-            }
-
-            if (numberOfRounds == 9)
-            {
-                Console.Clear();
-                DisplayGrid();
-                Console.WriteLine("It's a draw, Nobody won!");
-                break;
-            }
-
-            // switch turns between players
-            if (currentPlayer == _player1) currentPlayer = _player2;
-            else currentPlayer = _player1;
-
-            Console.Clear();
-        }
-        DisplayGrid();
-
-        Console.WriteLine("Game over!");
+        _items[_currentItemCount] = item;
+        _currentItemCount++;
     }
 
 }
