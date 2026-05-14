@@ -1,47 +1,30 @@
-char[] grid = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
-
-int round = 1;
-char currentPlayer = 'X';
-bool hasWon = false;
+char[] board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
+int[] winLines = [0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 3, 6, 1, 4, 7, 2, 5, 8, 0, 4, 8, 2, 4, 6];
+char player = 'X';
+int movesLeft = 9;
 
 while (true)
 {
     Console.Clear();
-    Console.WriteLine($"""
-        Round {round}, Player: {currentPlayer}
-        
-         {grid[0]} | {grid[1]} | {grid[2]}
-        -----------
-         {grid[3]} | {grid[4]} | {grid[5]}
-        -----------
-         {grid[6]} | {grid[7]} | {grid[8]}
-        """);
+    Console.WriteLine($"Player: {player}\n\n {board[0]} | {board[1]} | {board[2]}\n---+---+---\n {board[3]} | {board[4]} | {board[5]}\n---+---+---\n {board[6]} | {board[7]} | {board[8]}");
+    Console.WriteLine($"\nPress 1-9 on numpad player {player}.");
 
-    if (hasWon || round > 9)
+    int selectedCell;
+    while ((selectedCell = "789456123".IndexOf(Console.ReadKey(true).KeyChar)) < 0 || board[selectedCell] != ' ') ;
+
+    board[selectedCell] = player;
+    movesLeft--;
+    bool hasWinner = false;
+
+    for (int lineStart = 0; lineStart < 24 && !hasWinner; lineStart += 3)
+        hasWinner = board[winLines[lineStart]] != ' ' && board[winLines[lineStart]] == board[winLines[lineStart + 1]] && board[winLines[lineStart]] == board[winLines[lineStart + 2]];
+
+    if (hasWinner || movesLeft == 0)
     {
-        Console.WriteLine(hasWon ? $"\nPlayer {currentPlayer} wins!" : $"\nDraw!");
+        Console.Clear();
+        Console.WriteLine($"Player: {player}\n\n {board[0]} | {board[1]} | {board[2]}\n---+---+---\n {board[3]} | {board[4]} | {board[5]}\n---+---+---\n {board[6]} | {board[7]} | {board[8]}");
+        Console.WriteLine(hasWinner ? $"\nPlayer {player} wins!" : "\nDraw!");
         break;
     }
-
-    Console.WriteLine($"\nPress 1-9 to place your {currentPlayer}.");
-
-    char key;
-    while ((key = Console.ReadKey(true).KeyChar) is < '1' or > '9' || grid[key - '1'] != ' ');
-
-    grid[key - '1'] = currentPlayer;
-
-    hasWon = (grid[0] != ' ' && grid[0] == grid[1] && grid[1] == grid[2]) ||
-          (grid[3] != ' ' && grid[3] == grid[4] && grid[4] == grid[5]) ||
-          (grid[6] != ' ' && grid[6] == grid[7] && grid[7] == grid[8]) ||
-          (grid[0] != ' ' && grid[0] == grid[3] && grid[3] == grid[6]) ||
-          (grid[1] != ' ' && grid[1] == grid[4] && grid[4] == grid[7]) ||
-          (grid[2] != ' ' && grid[2] == grid[5] && grid[5] == grid[8]) ||
-          (grid[0] != ' ' && grid[0] == grid[4] && grid[4] == grid[8]) ||
-          (grid[2] != ' ' && grid[2] == grid[4] && grid[4] == grid[6]);
-
-    if (!hasWon)
-    {
-        currentPlayer = currentPlayer == 'X' ? 'O' : 'X';
-        round++;
-    }
+    player = (char)('X' + 'O' - player);
 }
