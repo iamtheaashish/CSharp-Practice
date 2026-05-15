@@ -2,7 +2,7 @@ Console.Clear();
 Console.ForegroundColor = ConsoleColor.White;
 Console.BackgroundColor = ConsoleColor.Black;
 
-Pack newPack = new Pack(15, 15, 15);
+Pack newPack = new Pack(5, 5, 5);
 Console.WriteLine($"New Pack is ready.\nMaximum {newPack.MaxItems} items are allowed.\nMaximum {newPack.MaxWeight}KG weight is allowed.\nMaximum {newPack.MaxVolume}L volume is allowed.");
 Console.WriteLine("Press the corresponding number to choose an item to pack:");
 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -21,33 +21,27 @@ while (true)
         switch (input)
         {
             case 1:
-                if (newPack.Add(new Arrow())) Console.WriteLine("Item was added.");
-                else Console.WriteLine("Item wasn't added.");
+                newPack.Add(new Arrow());
                 break;
 
             case 2:
-                if (newPack.Add(new Bow())) Console.WriteLine("Item was added.");
-                else Console.WriteLine("Item wasn't added.");
+                newPack.Add(new Bow());
                 break;
 
             case 3:
-                if (newPack.Add(new Rope())) Console.WriteLine("Item was added.");
-                else Console.WriteLine("Item wasn't added.");
+                newPack.Add(new Rope());
                 break;
 
             case 4:
-                if (newPack.Add(new Water())) Console.WriteLine("Item was added.");
-                else Console.WriteLine("Item wasn't added.");
+                newPack.Add(new Water());
                 break;
 
             case 5:
-                if (newPack.Add(new Food())) Console.WriteLine("Item was added.");
-                else Console.WriteLine("Item wasn't added.");
+                newPack.Add(new Food());
                 break;
 
             case 6:
-                if (newPack.Add(new Sword())) Console.WriteLine("Item was added.");
-                else Console.WriteLine("Item wasn't added.");
+                newPack.Add(new Sword());
                 break;
         }
     }
@@ -69,13 +63,13 @@ while (true)
 
 public class InventoryItem
 {
-    public float ItemWeight { get; }
-    public float ItemVolume { get; }
+    public float _itemWeight { get; }
+    public float _itemVolume { get; }
 
     public InventoryItem(float itemWeight, float itemVolume)
     {
-        ItemWeight = itemWeight;
-        ItemVolume = itemVolume;
+        _itemWeight = itemWeight;
+        _itemVolume = itemVolume;
     }
 }
 
@@ -157,16 +151,31 @@ public class Sword : InventoryItem
 
 public class Pack
 {
-    // array of inventory items
     private InventoryItem[] _items;
-    private int _currentItemCount;
 
-    // auto property
+    private int _currentItemCount;
+    private float _currentItemWeight;
+    private float _currentItemVolume;
+
     public int MaxItems { get; }
     public float MaxWeight { get; }
     public float MaxVolume { get; }
 
-    // constructor
+    public int CurrentItemCount
+    {
+        get => _currentItemCount;
+    }
+
+    public float CurrentWeight
+    {
+        get => _currentItemWeight;
+    }
+
+    public float CurrentVolume
+    {
+        get => _currentItemVolume;
+    }
+
     public Pack(int maxItems, float maxWeight, float maxVolume)
     {
         MaxItems = maxItems;
@@ -178,45 +187,26 @@ public class Pack
 
     public bool Add(InventoryItem item)
     {
-        if (_currentItemCount >= MaxItems) // last valid index of MaxItems is -1
+        if (_currentItemCount >= MaxItems || _currentItemWeight >= MaxWeight || _currentItemVolume >= MaxVolume)
+        {
+            Console.WriteLine("Item wasn't added.");
             return false;
+        }
 
         _items[_currentItemCount] = item;
-        _currentItemCount++;
 
+        _currentItemCount++;
+        _currentItemWeight += item._itemWeight;
+        _currentItemVolume += item._itemVolume;
+
+        Console.WriteLine("Item was added.");
         return true;
     }
-
-    public int CurrentItemCount
-    {
-        get => _currentItemCount;
-    }
-    public float CurrentWeight
-    {
-        get
-        {
-            float total = 0;
-            for (int i = 0; i < _currentItemCount; i++) total += _items[i].ItemWeight;
-
-            return total;
-        }
-    }
-    public float CurrentVolume
-    {
-        get
-        {
-            float total = 0;
-            for (int i = 0; i < _currentItemCount; i++) total += _items[i].ItemVolume;
-
-            return total;
-        }
-    }
-
-    // override ToString and method hiding
 
     public override string ToString()
     {
         string result = "Pack containing: ";
+
         for (int i = 0; i < _currentItemCount; i++)
         {
             result += $"{_items[i]} ";
