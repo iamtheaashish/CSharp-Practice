@@ -187,7 +187,7 @@ public class Pack
 
     public bool Add(InventoryItem item)
     {
-        if (_currentItemCount >= MaxItems || _currentItemWeight >= MaxWeight || _currentItemVolume >= MaxVolume)
+        if ((_currentItemCount + 1 >= MaxItems) || (_currentItemWeight + item._itemWeight >= MaxWeight) || (_currentItemVolume + item._itemVolume >= MaxVolume))
         {
             Console.WriteLine("Item wasn't added.");
             return false;

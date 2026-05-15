@@ -6,37 +6,16 @@ Robot megatron = new Robot();
 for (int i = 0; i < megatron.Commands.Length; i++)
 {
     string? input = Console.ReadLine();
-    RobotCommand newCommand;
-
-    switch (input)
+    IRobotCommand newCommand = input switch
     {
-        case "on":
-            newCommand = new OnCommand();
-            break;
-
-        case "off":
-            newCommand = new OffCommand();
-            break;
-
-        case "north":
-            newCommand = new NorthCommand();
-            break;
-
-        case "south":
-            newCommand = new SouthCommand();
-            break;
-
-        case "east":
-            newCommand = new EastCommand();
-            break;
-
-        case "west":
-            newCommand = new WestCommand();
-            break;
-
-        default:
-            throw new Exception("Invalid command");
-    }
+        "on" => new OnCommand(),
+        "off" => new OffCommand(),
+        "north" => new NorthCommand(),
+        "south" => new SouthCommand(),
+        "west" => new WestCommand(),
+        "east" => new EastCommand(),
+        
+    };
 
     megatron.Commands[i] = newCommand;
 }
@@ -53,10 +32,10 @@ public class Robot
     public int X { get; set; }
     public int Y { get; set; }
     public bool IsPowered { get; set; }
-    public RobotCommand?[] Commands { get; } = new RobotCommand?[3];
+    public IRobotCommand?[] Commands { get; } = new IRobotCommand?[3];
     public void Run()
     {
-        foreach (RobotCommand? command in Commands)
+        foreach (IRobotCommand? command in Commands)
         {
             command?.Run(this);
             Console.WriteLine($"[{X} {Y} {IsPowered}]");
@@ -64,27 +43,27 @@ public class Robot
     }
 }
 
-public abstract class RobotCommand
+public interface IRobotCommand
 {
-    public abstract void Run(Robot robot);
+    public void Run(Robot robot);
 }
-public class OnCommand : RobotCommand
+public class OnCommand : IRobotCommand
 {
-    public override void Run(Robot robot)
+    public void Run(Robot robot)
     {
         robot.IsPowered = true;
     }
 }
-public class OffCommand : RobotCommand
+public class OffCommand : IRobotCommand
 {
-    public override void Run(Robot robot)
+    public void Run(Robot robot)
     {
         robot.IsPowered = false;
     }
 }
-public class NorthCommand : RobotCommand
+public class NorthCommand : IRobotCommand
 {
-    public override void Run(Robot robot)
+    public void Run(Robot robot)
     {
         if (robot.IsPowered)
         {
@@ -92,9 +71,9 @@ public class NorthCommand : RobotCommand
         }
     }
 }
-public class SouthCommand : RobotCommand
+public class SouthCommand : IRobotCommand
 {
-    public override void Run(Robot robot)
+    public void Run(Robot robot)
     {
         if (robot.IsPowered)
         {
@@ -103,9 +82,9 @@ public class SouthCommand : RobotCommand
 
     }
 }
-public class WestCommand : RobotCommand
+public class WestCommand : IRobotCommand
 {
-    public override void Run(Robot robot)
+    public void Run(Robot robot)
     {
         if (robot.IsPowered)
         {
@@ -113,9 +92,9 @@ public class WestCommand : RobotCommand
         }
     }
 }
-public class EastCommand : RobotCommand
+public class EastCommand : IRobotCommand
 {
-    public override void Run(Robot robot)
+    public void Run(Robot robot)
     {
         if (robot.IsPowered)
         {
