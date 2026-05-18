@@ -6,7 +6,7 @@ Pack newPack = new Pack(5, 5, 5);
 Console.WriteLine($"New Pack is ready.\nMaximum {newPack.MaxItems} items are allowed.\nMaximum {newPack.MaxWeight}KG weight is allowed.\nMaximum {newPack.MaxVolume}L volume is allowed.");
 Console.WriteLine("Press the corresponding number to choose an item to pack:");
 Console.ForegroundColor = ConsoleColor.Yellow;
-Console.WriteLine("1. Arrow(0.1 Kg, 0.05 L)\n2. Bow(1 Kg, 4 L)\n3. Rope(1 Kg, 1.5 L)\n4. Water(2 Kg, 3 L)\n5. Food(1 Kg, 0.5 L)\n6. Sword(5 Kg, 3 L)");
+Console.WriteLine("1. ArRow(0.1 Kg, 0.05 L)\n2. Bow(1 Kg, 4 L)\n3. Rope(1 Kg, 1.5 L)\n4. Water(2 Kg, 3 L)\n5. Food(1 Kg, 0.5 L)\n6. Sword(5 Kg, 3 L)");
 
 Console.ForegroundColor = ConsoleColor.White;
 
@@ -21,7 +21,7 @@ while (true)
         switch (input)
         {
             case 1:
-                newPack.Add(new Arrow());
+                newPack.Add(new ArRow());
                 break;
 
             case 2:
@@ -54,9 +54,9 @@ while (true)
 }
 
 
-// InventoryItem arrow1 = new Arrow()
+// InventoryItem arRow1 = new ArRow()
 //
-// Console.WriteLine($"{arrow1.ToString()}")
+// Console.WriteLine($"{arRow1.ToString()}")
 
 
 // ===> End of the main method.
@@ -73,17 +73,17 @@ public class InventoryItem
     }
 }
 
-public class Arrow : InventoryItem
+public class ArRow : InventoryItem
 {
     // constructor
-    public Arrow() : base(0.1f, 0.05f)
+    public ArRow() : base(0.1f, 0.05f)
     {
 
     }
 
     public override string ToString()
     {
-        return "Arrow";
+        return "ArRow";
     }
 }
 public class Bow : InventoryItem

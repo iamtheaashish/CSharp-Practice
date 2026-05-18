@@ -35,7 +35,7 @@ for (int i = 0; i < megatron.Commands.Length; i++)
             break;
 
         default:
-            throw new Exception("Invalid command");
+            thRow new Exception("Invalid command");
     }
 
     megatron.Commands[i] = newCommand;

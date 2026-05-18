@@ -47,7 +47,7 @@ class TicTacToe
 
     private bool CheckWin(char player)
     {
-        // columns
+        // Columns
         if ((_grid[6] == player) && (_grid[3] == player) && (_grid[0] == player))
             return true;
         if ((_grid[7] == player) && (_grid[4] == player) && (_grid[1] == player))
@@ -55,7 +55,7 @@ class TicTacToe
         if ((_grid[8] == player) && (_grid[5] == player) && (_grid[2] == player))
             return true;
 
-        // rows
+        // Rows
         if ((_grid[6] == player) && (_grid[7] == player) && (_grid[8] == player))
             return true;
         if ((_grid[3] == player) && (_grid[4] == player) && (_grid[5] == player))
