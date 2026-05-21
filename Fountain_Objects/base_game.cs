@@ -11,17 +11,27 @@ public class Game
     {
         while (!HasWon())
         {
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("----------------------------------------------------------------------------------");
+            
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"You are in the room at (Row={Player.Location.Row}, Column={Player.Location.Column}).");
+
             Map.Senses(Player);
             ToDo();
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("----------------------------------------------------------------------------------");
         }
         Console.WriteLine("You win!");
     }
 
     public void ToDo()
     {
+        Console.ForegroundColor = ConsoleColor.White;
         Console.Write("What do you want to do? ");
+
+        Console.ForegroundColor = ConsoleColor.Cyan;
 
         string? input = Console.ReadLine()?.ToLower();
 
@@ -46,7 +56,6 @@ public class Game
                 if(Player.Location.Row == 0 && Player.Location.Column == 2) Map.TurnFountainOn();
                 break;
         }
-
     }
         public bool HasWon()
     {
@@ -55,7 +64,6 @@ public class Game
 
         return false;
     }
-
 }
 
 public class Map
@@ -82,6 +90,7 @@ public class Map
 
     public void Senses(Player player)
     {
+        Console.ForegroundColor = ConsoleColor.Green;
         if(player.Location.Row == 0 && player.Location.Column == 0)
         {
             Console.WriteLine("You see light coming from the cavern entrance.");
