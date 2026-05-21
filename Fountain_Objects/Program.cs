@@ -9,13 +9,14 @@ public class Game
 
     public void Run()
     {
-        while (true)
+        while (!HasWon())
         {
             Console.WriteLine("----------------------------------------------------------------------------------");
             Console.WriteLine($"You are in the room at (Row={Player.Location.Row}, Column={Player.Location.Column}).");
             Map.Senses(Player);
             ToDo();
         }
+        Console.WriteLine("You win!");
     }
 
     public void ToDo()
@@ -47,6 +48,13 @@ public class Game
         }
 
     }
+        public bool HasWon()
+    {
+        if ((Player.Location.Row == 0 && Player.Location.Column == 0) && Map._isFountainOn == true)
+            return true;
+
+        return false;
+    }
 
 }
 
@@ -56,7 +64,7 @@ public class Map
     public int Rows { get; }
     public int Columns { get; }
 
-    private bool _isFountainOn = false;
+    public bool _isFountainOn = false;
     public Map(int row, int column)
     {
         Rows = row;
