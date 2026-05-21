@@ -13,11 +13,11 @@ public class Game
         {
             Console.WriteLine("----------------------------------------------------------------------------------");
             Console.WriteLine($"You are in the room at (Row={Player.Location.Row}, Column={Player.Location.Column}).");
-            MoveAround();
+            ToDo();
         }
     }
 
-    public void MoveAround()
+    public void ToDo()
     {
         Console.Write("What do you want to do? ");
 
