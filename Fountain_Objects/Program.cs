@@ -13,6 +13,7 @@ public class Game
         {
             Console.WriteLine("----------------------------------------------------------------------------------");
             Console.WriteLine($"You are in the room at (Row={Player.Location.Row}, Column={Player.Location.Column}).");
+            Map.Senses(Player);
             ToDo();
         }
     }
@@ -40,6 +41,9 @@ public class Game
             case "move east":
                 if (Player.Location.Column < Map.Columns - 1) Player.Location.Column++;
                 break;
+            case "enable fountain":
+                if(Player.Location.Row == 0 && Player.Location.Column == 2) Map.TurnFountainOn();
+                break;
         }
 
     }
@@ -52,6 +56,7 @@ public class Map
     public int Rows { get; }
     public int Columns { get; }
 
+    private bool _isFountainOn = false;
     public Map(int row, int column)
     {
         Rows = row;
@@ -65,6 +70,26 @@ public class Map
 
         _rooms[0, 0] = Room.Entrance;
         _rooms[0, 2] = Room.Fountain;
+    }
+
+    public void Senses(Player player)
+    {
+        if(player.Location.Row == 0 && player.Location.Column == 0)
+        {
+            Console.WriteLine("You see light coming from the cavern entrance.");
+        }
+        if(player.Location.Row == 0 && player.Location.Column == 2)
+        {
+            if(!_isFountainOn)
+                Console.WriteLine("ou hear water dripping in this room. The Fountain of Objects is here!");
+            else
+                Console.WriteLine("You hear the rushing waters from the Fountain of Objects. It has been reactivated!");
+        }
+    }
+
+    public void TurnFountainOn()
+    {
+        _isFountainOn = true;
     }
 }
 
