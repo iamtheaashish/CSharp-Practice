@@ -91,14 +91,14 @@ public class Map
     public void Senses(Player player)
     {
         Console.ForegroundColor = ConsoleColor.Green;
-        if(player.Location.Row == 0 && player.Location.Column == 0)
+        if(_rooms[player.Location.Row, player.Location.Column] == Room.Entrance)
         {
             Console.WriteLine("You see light coming from the cavern entrance.");
         }
-        if(player.Location.Row == 0 && player.Location.Column == 2)
+        if(_rooms[player.Location.Row, player.Location.Column] == Room.Fountain)
         {
             if(!_isFountainOn)
-                Console.WriteLine("ou hear water dripping in this room. The Fountain of Objects is here!");
+                Console.WriteLine("You hear water dripping in this room. The Fountain of Objects is here!");
             else
                 Console.WriteLine("You hear the rushing waters from the Fountain of Objects. It has been reactivated!");
         }
