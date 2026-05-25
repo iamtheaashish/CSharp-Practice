@@ -3,7 +3,7 @@ Console.ForegroundColor = ConsoleColor.White;
 
 Robot megatron = new Robot();
 
-for (int i = 0; i < megatron.Commands.Length; i++)
+while (true)
 {
     string? input = Console.ReadLine();
     RobotCommand newCommand;
@@ -33,17 +33,18 @@ for (int i = 0; i < megatron.Commands.Length; i++)
         case "west":
             newCommand = new WestCommand();
             break;
+        
+        case "stop":
+            Console.WriteLine();
+            megatron.Run();
+
 
         default:
-            thRow new Exception("Invalid command");
+            Console.WriteLine("Invalid command");
     }
 
-    megatron.Commands[i] = newCommand;
+    megatron.Commands.Add = newCommand;
 }
-
-Console.WriteLine();
-
-megatron.Run();
 
 
 // ==> end of main method.
@@ -53,7 +54,7 @@ public class Robot
     public int X { get; set; }
     public int Y { get; set; }
     public bool IsPowered { get; set; }
-    public RobotCommand?[] Commands { get; } = new RobotCommand?[3];
+    public List<RobotCommand> Commands { get; } = new List<RobotCommand>();
     public void Run()
     {
         foreach (RobotCommand? command in Commands)
