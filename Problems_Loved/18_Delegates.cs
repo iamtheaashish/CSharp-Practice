@@ -21,8 +21,8 @@ while (true)
 }
 
 
-bool IsEven(int x) => n % 2 == 0;
-bool IsPositive(int x) => n > 0;
+bool IsEven(int x) => x % 2 == 0;
+bool IsPositive(int x) => x > 0;
 bool IsMultiple10(int x) => x % 10 == 0;
 
 public class Sieve
@@ -34,7 +34,5 @@ public class Sieve
         _refine = refine;
     }
 
-    public bool IsGood(int number)
-    {
-    }
+    public bool IsGood(int number) => _refine(number);
 }
