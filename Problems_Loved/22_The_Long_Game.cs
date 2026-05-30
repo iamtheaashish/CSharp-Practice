@@ -13,7 +13,7 @@ newPlayer.GameLoop();
 public class Player
 {
     public string Name { get; private set; }
-    public int Score { get; private set; } = 0;
+    public int Score { get; private set; }
 
     public Player(string name)
     {
